@@ -1,0 +1,52 @@
+#define E1 10  
+#define E2 11  
+
+#define I1 8  
+#define I2 9  
+#define I3 12  
+#define I4 13  
+
+int vs = 2; 
+bool vibrationDetected = false;
+
+void setup() {
+    pinMode(E1, OUTPUT);
+    pinMode(E2, OUTPUT);
+    pinMode(I1, OUTPUT);
+    pinMode(I2, OUTPUT);
+    pinMode(I3, OUTPUT);
+    pinMode(I4, OUTPUT);
+    pinMode(vs, INPUT);
+}
+
+void loop() {
+    long measurement = vibration();
+
+    if (measurement > 50) {
+        
+        vibrationDetected = true;
+    } else {
+       
+        vibrationDetected = false;
+    }
+
+    if (vibrationDetected) {
+      
+        analogWrite(E1, 255); 
+        analogWrite(E2, 255); 
+
+        digitalWrite(I1, HIGH);
+        digitalWrite(I2, LOW);
+        digitalWrite(I3, HIGH);
+        digitalWrite(I4, LOW);
+    } else {
+        
+        digitalWrite(E1, LOW);
+        digitalWrite(E2, LOW);
+    }
+}
+
+long vibration() {
+    long measurement = pulseIn(vs, HIGH);  
+    return measurement;
+}
